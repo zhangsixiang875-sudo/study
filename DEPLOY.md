@@ -1,49 +1,45 @@
 # 装到 Android 手机上
 
+**已上线：<https://zhangsixiang875-sudo.github.io/study/>**
+
 现在是「学习台」：一个装内容的容器，不只是一个 FX 练习 App。
 内容格式见 [CONTENT.md](CONTENT.md)，加新内容不用改引擎。
 
-三种装法。**A 今天就能用**，B 才是"真 APP"，C 最省事但没图标。
+---
+
+## 手机安装（30 秒）
+
+1. 手机 Chrome 打开上面的地址
+2. 右上角 `⋮` → **添加到主屏幕** → 安装
+3. 桌面出现「学习台」图标，点开全屏、无地址栏、断网可用
+
+装好之后即使电脑关机也无所谓：页面、图标、内容包都缓存在手机里。
 
 ---
 
-## A. 局域网（今天就能用，电脑要开着）
+## 改内容后怎么更新
 
-1. 电脑上运行：
+仓库：<https://github.com/zhangsixiang875-sudo/study>
+
+```
+cd gh-pages
+git add -A && git commit -m "更新内容" && git push
+```
+
+GitHub Pages 会自动重建（约 1 分钟）。手机上重开 App 就是新内容。
+
+如果改了 `index.html`，要顺手把 `sw.js` 里的 `CACHE` 版本号 +1，
+否则手机的 service worker 会一直用旧缓存。
+
+---
+
+## 局域网（不联网时用）
 
 ```
 py -3 fxapp/serve.py
 ```
 
-屏幕会打印一个地址，形如 `http://192.168.1.7:8765/`
-
-2. 手机连**同一个 WiFi**，Chrome 打开这个地址。
-3. Chrome 右上角 `⋮` → **添加到主屏幕**。
-
-这个方式下 App 会自动从 `packs/` 目录拉内容包，改完文件刷新就生效。
-
----
-
-## B. GitHub Pages（真 PWA：离线 + 自动更新）
-
-1. 把 `fxapp/` 整个文件夹传上去。
-2. 仓库 **Settings → Pages** → Source 选 `main` 分支，目录选那个文件夹。
-3. 得到 `https://<用户名>.github.io/<仓库名>/fxapp/`
-4. 手机 Chrome 打开 → `⋮` → **添加到主屏幕**。
-
-装的是真正的 PWA：有 service worker，**断网也能做题**，进度存在手机本地。
-以后加了内容包，推上去手机自动更新。
-
-**注意**：`manifest.json` 里 `start_url` 是 `./index.html`，`fxapp` 必须整个放进去。
-
----
-
-## C. 只发一个文件（最省事）
-
-把 `fxapp/index.html` 单独发到手机，用 Chrome 打开。
-
-内置的 FX 内容能直接用（`BUILTIN_PACKS` 里有一份兜底），但没有图标、带地址栏，
-而且**不会自动加载 `packs/` 里的新内容**（file:// 下 fetch 被拦）。
+手机连同一 WiFi，打开打印出的地址。这个方式下 App 会自动从 `packs/` 拉内容。
 
 ---
 
@@ -78,6 +74,6 @@ py -3 build.py
 
 1. 模板（随机出数）只有 FX 那一套；别的资料只能用静态题（`items`）。
 2. 手机和电脑的进度是两套，只能导出 JSON 人工对照。
-3. 局域网装出来是快捷方式，不是 WebAPK。
-4. 没有推送提醒。
-5. 内容包在浏览器里存 localStorage，清浏览器数据会丢；重要进度记得导出。
+3. 没有推送提醒。
+4. 内容包和进度存在浏览器 localStorage，清浏览器数据会丢；重要进度记得导出。
+5. 部署账号是 `zhangsixiang875-sudo`（不是 `lenana254`）。
