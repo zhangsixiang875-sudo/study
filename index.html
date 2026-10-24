@@ -531,12 +531,17 @@ const UI={
 
   loadRemotePacks(){
     const self=this;
-    fetch("packs/index.json",{cache:"no-store"}).then(function(r){ return r.ok?r.json():null; })
+    /* APK 用 file:// 打开时，相对 fetch 会被拦，改用线上绝对地址。
+       这样外壳可以离线，内容包仍然能联网更新。 */
+    const PACK_BASE = (location.protocol === "file:")
+      ? "https://zhangsixiang875-sudo.github.io/study/packs/"
+      : "packs/";
+    fetch(PACK_BASE+"index.json",{cache:"no-store"}).then(function(r){ return r.ok?r.json():null; })
       .then(function(idx){
         if(!idx||!idx.files) return;
         return idx.files.reduce(function(p,f){
           return p.then(function(){
-            return fetch("packs/"+f,{cache:"no-store"}).then(function(rr){ return rr.ok?rr.json():null; })
+            return fetch(PACK_BASE+f,{cache:"no-store"}).then(function(rr){ return rr.ok?rr.json():null; })
               .then(function(pk){ if(pk&&pk.id&&pk.courses){ pk.remote=true; Store.addPack(pk); } });
           });
         }, Promise.resolve()).then(function(){ self.renderCatalog(); });
