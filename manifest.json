@@ -1,6 +1,6 @@
 {
-  "name": "FX 练习",
-  "short_name": "FX 练习",
+  "name": "学习台",
+  "short_name": "学习台",
   "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait",
@@ -19,5 +19,6 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "description": "手机端学习 App：目录 + 内容包"
 }
